@@ -1,5 +1,6 @@
 <?php
 include_once 'config.php';
+include_once 'fragment.php';
 check();
 $robotState = $botState['botState']??"on";
 if ($userInfo['step'] == "banned" && $from_id != $admin && $userInfo['isAdmin'] != true) {
@@ -1677,15 +1678,15 @@ if(preg_match('/havePaiedWeSwap(.*)/',$data,$match)) {
         $subLink = $botState['subLinkState']=="on"?$botUrl . "settings/subLink.php?token=" . $token:"";
 
         $vraylink = getConnectionLink($server_id, $uniqid, $protocol, $remark, $port, $netType, $inbound_id, $rahgozar, $customPath, $customPort, $customSni);
+       
         foreach($vraylink as $vray_link){
         $acc_text = "
         
 😍 سفارش جدید شما
-📡 پروتکل: $protocol
 🔮 نام سرویس: $remark
 🔋حجم سرویس: $volume گیگ
 ⏰ مدت سرویس: $days روز⁮⁮ ⁮⁮
-" . ($botState['configLinkState'] != "off"?"
+" . ($botState['configLinkState'] == "offf"?"
 💝 config : <code>$vray_link</code>":"");
 
 if($botState['subLinkState'] == "on") $acc_text .= "
@@ -1701,8 +1702,10 @@ if($botState['subLinkState'] == "on") $acc_text .= "
             $ecc = 'L';
             $pixel_Size = 11;
             $frame_Size = 0;
+
+            $getfragment = GetFragment($uniqid);
             
-            QRcode::png($vray_link, $file, $ecc, $pixel_Size, $frame_Size);
+            QRcode::png($getfragment, $file, $ecc, $pixel_Size, $frame_Size);
         	addBorderImage($file);
         	
         	$backgroundImage = imagecreatefromjpeg("settings/QRCode.jpg");
@@ -1714,7 +1717,11 @@ if($botState['subLinkState'] == "on") $acc_text .= "
             imagedestroy($backgroundImage);
             imagedestroy($qrImage);
 
+            sendMessage($getfragment,null,'MarkDown',$uid);
+  
         	sendPhoto($botUrl . $file, $acc_text,json_encode(['inline_keyboard'=>[[['text'=>$buttonValues['back_to_main'],'callback_data'=>"mainMenu"]]]]),"HTML", $uid);
+            
+            
             unlink($file);
         }
         
@@ -2854,11 +2861,10 @@ if(preg_match('/payCustomWithWallet(.*)/',$data, $match)){
     foreach($vraylink as $vray_link){
         $acc_text = "
 😍 سفارش جدید شما
-📡 پروتکل: $protocol
 🔮 نام سرویس: $remark
 🔋حجم سرویس: $volume گیگ
 ⏰ مدت سرویس: $days روز⁮⁮ ⁮⁮
-" . ($botState['configLinkState'] != "off"?"
+" . ($botState['configLinkState'] == "offf"?"
 💝 config : <code>$vray_link</code>":"");
 if($botState['subLinkState'] == "on") $acc_text .= "
 
@@ -2871,8 +2877,10 @@ if($botState['subLinkState'] == "on") $acc_text .= "
         $ecc = 'L';
         $pixel_Size = 11;
         $frame_Size = 0;
+
+        $getfragment = GetFragment($uniqid);
         
-        QRcode::png($vray_link, $file, $ecc, $pixel_Size, $frame_Size);
+        QRcode::png($getfragment, $file, $ecc, $pixel_Size, $frame_Size);
     	addBorderImage($file);
     	
         $backgroundImage = imagecreatefromjpeg("settings/QRCode.jpg");
@@ -2884,7 +2892,11 @@ if($botState['subLinkState'] == "on") $acc_text .= "
         imagedestroy($backgroundImage);
         imagedestroy($qrImage);
 
+        sendMessage($getfragment,null,'MarkDown',$uid);
+
     	sendPhoto($botUrl . $file, $acc_text,json_encode(['inline_keyboard'=>[[['text'=>$buttonValues['back_to_main'],'callback_data'=>"mainMenu"]]]]),"HTML", $uid);
+        
+     
         unlink($file);
     }
 
@@ -3232,11 +3244,10 @@ if(preg_match('/accCustom(.*)/',$data, $match) and $text != $buttonValues['cance
     foreach($vraylink as $vray_link){
         $acc_text = "
 😍 سفارش جدید شما
-📡 پروتکل: $protocol
 🔮 نام سرویس: $remark
 🔋حجم سرویس: $volume گیگ
 ⏰ مدت سرویس: $days روز⁮⁮ ⁮⁮
-" . ($botState['configLinkState'] != "off"?"
+" . ($botState['configLinkState'] == "offf"?"
 💝 config : <code>$vray_link</code>":"");
 if($botState['subLinkState'] == "on") $acc_text .= "
 
@@ -3248,8 +3259,10 @@ if($botState['subLinkState'] == "on") $acc_text .= "
         $ecc = 'L';
         $pixel_Size = 11;
         $frame_Size = 0;
+
+        $getfragment = GetFragment($uniqid);
     
-        QRcode::png($vray_link, $file, $ecc, $pixel_Size, $frame_Size);
+        QRcode::png($getfragment, $file, $ecc, $pixel_Size, $frame_Size);
     	addBorderImage($file);
     	
     	$backgroundImage = imagecreatefromjpeg("settings/QRCode.jpg");
@@ -3261,7 +3274,11 @@ if($botState['subLinkState'] == "on") $acc_text .= "
         imagedestroy($backgroundImage);
         imagedestroy($qrImage);
 
+        sendMessage($getfragment,null,'MarkDown',$uid);
+
     	sendPhoto($botUrl . $file, $acc_text,json_encode(['inline_keyboard'=>[[['text'=>$buttonValues['back_to_main'],'callback_data'=>"mainMenu"]]]]),"HTML", $uid);
+      
+       
         unlink($file);
     }
     sendMessage('✅ کانفیگ و براش ارسال کردم', getMainKeys());
@@ -3518,11 +3535,10 @@ if(preg_match('/payWithWallet(.*)/',$data, $match)){
             foreach($vraylink as $vray_link){
                 $acc_text = "
 😍 سفارش جدید شما
-📡 پروتکل: $protocol
 🔮 نام سرویس: $remark
 🔋حجم سرویس: $volume گیگ
 ⏰ مدت سرویس: $days روز⁮⁮ ⁮⁮
-" . ($botState['configLinkState'] != "off"?"
+" . ($botState['configLinkState'] == "offf"?"
 💝 config : <code>$vray_link</code>":"");
 if($botState['subLinkState'] == "on") $acc_text .= "
 
@@ -3534,8 +3550,10 @@ if($botState['subLinkState'] == "on") $acc_text .= "
                 $ecc = 'L';
                 $pixel_Size = 11;
                 $frame_Size = 0;
+
+                $getfragment = GetFragment($uniqid);
                 
-                QRcode::png($vray_link, $file, $ecc, $pixel_Size, $frame_Size);
+                QRcode::png($getfragment, $file, $ecc, $pixel_Size, $frame_Size);
             	addBorderImage($file);
             	
 	        	$backgroundImage = imagecreatefromjpeg("settings/QRCode.jpg");
@@ -3547,7 +3565,11 @@ if($botState['subLinkState'] == "on") $acc_text .= "
                 imagedestroy($backgroundImage);
                 imagedestroy($qrImage);
 
+                sendMessage($getfragment,null,'MarkDown',$uid);
+
             	sendPhoto($botUrl . $file, $acc_text,json_encode(['inline_keyboard'=>[[['text'=>$buttonValues['back_to_main'],'callback_data'=>"mainMenu"]]]]),"HTML", $uid);
+               
+              
                 unlink($file);
             }
     
@@ -4016,11 +4038,10 @@ if(preg_match('/accept(.*)/',$data, $match) and $text != $buttonValues['cancel']
             foreach($vraylink as $vray_link){
                 $acc_text = "
 😍 سفارش جدید شما
-📡 پروتکل: $protocol
 🔮 نام سرویس: $remark
 🔋حجم سرویس: $volume گیگ
 ⏰ مدت سرویس: $days روز
-" . ($botState['configLinkState'] != "off"?"
+" . ($botState['configLinkState'] == "offf"?"
 💝 config : <code>$vray_link</code>":"");
 if($botState['subLinkState'] == "on") $acc_text .= "
 
@@ -4032,8 +4053,10 @@ if($botState['subLinkState'] == "on") $acc_text .= "
                 $ecc = 'L';
                 $pixel_Size = 11;
                 $frame_Size = 0;
+
+                $getfragment = GetFragment($uniqid);
             
-                QRcode::png($vray_link, $file, $ecc, $pixel_Size, $frame_Size);
+                QRcode::png($getfragment, $file, $ecc, $pixel_Size, $frame_Size);
             	addBorderImage($file);
             	
             	
@@ -4046,7 +4069,11 @@ if($botState['subLinkState'] == "on") $acc_text .= "
                 imagedestroy($backgroundImage);
                 imagedestroy($qrImage);
 
+                sendMessage($getfragment,null,'MarkDown',$uid);
+
             	sendPhoto($botUrl . $file, $acc_text,json_encode(['inline_keyboard'=>[[['text'=>$buttonValues['back_to_main'],'callback_data'=>"mainMenu"]]]]),"HTML", $uid);
+               
+               
                 unlink($file);
             }
             $agent_bought = $payInfo['agent_bought'];
@@ -5456,11 +5483,10 @@ if(preg_match('/freeTrial(\d+)/',$data,$match)) {
     foreach($vraylink as $vray_link){
         $acc_text = "
 😍 سفارش جدید شما
-📡 پروتکل: $protocol
 🔮 نام سرویس: $remark
 🔋حجم سرویس: $volume گیگ
 ⏰ مدت سرویس: $days روز
-" . ($botState['configLinkState'] != "off"?"
+" . ($botState['configLinkState'] == "offf"?"
 💝 config : <code>$vray_link</code>":"");
 if($botState['subLinkState'] == "on") $acc_text .= "
 
@@ -5472,7 +5498,10 @@ if($botState['subLinkState'] == "on") $acc_text .= "
         $ecc = 'L'; 
         $pixel_Size = 11;
         $frame_Size = 0;
-        QRcode::png($vray_link, $file, $ecc, $pixel_Size, $frame_size);
+
+        $getfragment = GetFragment($uniqid);
+
+        QRcode::png($getfragment, $file, $ecc, $pixel_Size, $frame_size);
     	addBorderImage($file);
     	
     	
@@ -5485,7 +5514,11 @@ if($botState['subLinkState'] == "on") $acc_text .= "
         imagedestroy($backgroundImage);
         imagedestroy($qrImage);
 
+        sendMessage($getfragment,null,'MarkDown',$uid);
+
         sendPhoto($botUrl . $file, $acc_text,json_encode(['inline_keyboard'=>[[['text'=>$buttonValues['back_to_main'],'callback_data'=>"mainMenu"]]]]),"HTML");
+       
+     
         unlink($file);
     }
     $vray_link = json_encode($vraylink);

@@ -2,6 +2,7 @@
 include_once "settings/values.php";
 include_once 'settings/jdf.php';
 include_once 'baseInfo.php';
+include_once 'fragment.php';
 $connection = new mysqli('localhost',$dbUserName,$dbPassword,$dbName);
 if($connection->connect_error){
     exit("error " . $connection->connect_error);  
@@ -1740,7 +1741,8 @@ function getUserOrderDetailKeys($id){
 
         
         $enable = $enable == true? $buttonValues['active']:$buttonValues['deactive'];
-        $msg = str_replace(['STATE', 'NAME','CONNECT-LINK', 'SUB-LINK'], [$enable, $remark, $configLinks, $subLink], $mainValues['config_details_message']);
+        $getfragment = GetFragmentWithConfig($configLinks);
+        $msg = str_replace(['STATE', 'NAME','CONNECT-LINK', 'SUB-LINK'], [$enable, $remark, $getfragment, $subLink], $mainValues['config_details_message']);
     
         $keyboard[] = [['text' => $buttonValues['back_button'], 'callback_data' => "managePanel"]];
         return ["keyboard"=>json_encode([
@@ -2096,7 +2098,8 @@ function getOrderDetailKeys($from_id, $id){
         $subLink = $botState['subLinkState']=="on"?"<code>" . $botUrl . "settings/subLink.php?token=" . $token . "</code>":"";
 
         $enable = $enable == true? $buttonValues['active']:$buttonValues['deactive'];
-        $msg = str_replace(['STATE', 'NAME','CONNECT-LINK', 'SUB-LINK'], [$enable, $remark, $configLinks, $subLink], $mainValues['config_details_message']);
+        $getfragment = GetFragmentWithConfig($configLinks);
+        $msg = str_replace(['STATE', 'NAME','CONNECT-LINK', 'SUB-LINK'], [$enable, $remark, $getfragment, $subLink], $mainValues['config_details_message']);
         
         
         $extrakey = [];
