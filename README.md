@@ -91,7 +91,7 @@ bash <(curl -s https://raw.githubusercontent.com/pgouria/wizwizxui-timebot/main/
 
 - (Sanaei)
 ````
-bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) v2.2.1
+bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) v2.2.6
 ````
 
 
