@@ -255,15 +255,6 @@ function getMainKeys(){
             ($botState['testAccount'] == "on")?[['text'=>$buttonValues['test_account'],'callback_data'=>"getTestAccount"]]:
                 []
             ),
-        [['text'=>$buttonValues['sharj'],'callback_data'=>"increaseMyWallet"]],
-        [['text'=>$buttonValues['invite_friends'],'callback_data'=>"inviteFriends"],['text'=>$buttonValues['my_info'],'callback_data'=>"myInfo"]],
-        (($botState['sharedExistence'] == "on" && $botState['individualExistence'] == "on")?
-        [['text'=>$buttonValues['shared_existence'],'callback_data'=>"availableServers"],['text'=>$buttonValues['individual_existence'],'callback_data'=>"availableServers2"]]:[]),
-        (($botState['sharedExistence'] == "on" && $botState['individualExistence'] != "on")?
-            [['text'=>$buttonValues['shared_existence'],'callback_data'=>"availableServers"]]:[]),
-        (($botState['sharedExistence'] != "on" && $botState['individualExistence'] == "on")?
-            [['text'=>$buttonValues['individual_existence'],'callback_data'=>"availableServers2"]]:[]
-        ),
         [['text'=>$buttonValues['application_links'],'callback_data'=>"reciveApplications"],['text'=>$buttonValues['my_tickets'],'callback_data'=>"supportSection"]],
         (($botState['searchState']=="on" || $from_id == $admin || $userInfo['isAdmin'] == true)?
             [['text'=>$buttonValues['search_config'],'callback_data'=>"showUUIDLeft"]]
