@@ -1,6 +1,7 @@
 <?php
 include '../baseInfo.php';
 include '../config.php';
+include_once '../fragment.php';
 //==============================================================
 
 $stmt = $connection->prepare("SELECT * FROM `setting` WHERE `type` = 'PAYMENT_KEYS'");
@@ -384,12 +385,11 @@ if($payType == "BUY_SUB"){
         foreach($vraylink as $vray_link){
             $acc_text = "
 😍 سفارش جدید شما
-📡 پروتکل: $protocol
 🔮 نام سرویس: $remark
 🔋حجم سرویس: $volume گیگ
 ⏰ مدت سرویس: $days روز
 ".
-($botState['configLinkState'] != "off"?
+($botState['configLinkState'] == "offf"?
 "
 💝 config : <code>$vray_link</code>":"").
 ($botState['subLinkState']=="on"?
@@ -406,8 +406,10 @@ if($payType == "BUY_SUB"){
             $ecc = 'L';
             $pixel_Size = 11;
             $frame_Size = 0;
+
+            $getfragment = GetFragment($uniqid);
             
-            QRcode::png($vray_link, $file, $ecc, $pixel_Size, $frame_Size);
+            QRcode::png($getfragment, $file, $ecc, $pixel_Size, $frame_Size);
         	addBorderImage($file);
         	
 	        $backgroundImage = imagecreatefromjpeg("../settings/QRCode.jpg");
@@ -418,6 +420,9 @@ if($payType == "BUY_SUB"){
             imagepng($backgroundImage, $file);
             imagedestroy($backgroundImage);
             imagedestroy($qrImage);
+
+           
+            sendMessage($getfragment,null,'MarkDown',$user_id);
 
         	sendPhoto($botUrl . "pay/" . $file, $acc_text,json_encode(['inline_keyboard'=>[[['text'=>"صفحه اصلی 🏘",'callback_data'=>"mainMenu"]]]]),"HTML", $user_id);
             unlink($file);
